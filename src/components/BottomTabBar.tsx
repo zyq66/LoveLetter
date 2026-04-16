@@ -1,6 +1,7 @@
 // src/components/BottomTabBar.tsx
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { colors } from '../theme';
 
 const TABS = [
@@ -11,7 +12,7 @@ const TABS = [
   { key: 'More', label: '更多', icon: '⋯' },
 ];
 
-export function BottomTabBar({ state, navigation }: any) {
+export function BottomTabBar({ state, navigation }: BottomTabBarProps) {
   return (
     <View style={styles.bar}>
       {TABS.map((tab, index) => {
