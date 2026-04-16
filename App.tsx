@@ -1,20 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AuthProvider, useAuth } from './src/store/AuthContext';
+import { RegisterScreen } from './src/screens/auth/RegisterScreen';
+import { LoginScreen } from './src/screens/auth/LoginScreen';
+import { CoupleCodeScreen } from './src/screens/auth/CoupleCodeScreen';
+import { colors } from './src/theme';
 
-export default function App() {
+// Placeholder for main app (replaced in Task 5)
+function MainApp() {
+  return <View style={{ flex: 1, backgroundColor: colors.bg }} />;
+}
+
+const Stack = createStackNavigator();
+
+function RootNavigator() {
+  const { userId, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.bg, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator color={colors.green} size="large" />
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {userId ? (
+          <Stack.Screen name="Main" component={MainApp} />
+        ) : (
+          <>
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="CoupleCode" component={CoupleCodeScreen} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <AuthProvider>
+      <RootNavigator />
+    </AuthProvider>
+  );
+}
