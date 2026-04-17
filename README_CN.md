@@ -32,18 +32,18 @@
 
 **🗓 纪念日守护** — 在一起的每一天都被计数，重要的日子提前提醒，再也不会忘记。
 
-**🤖 AI 陪伴** — 由 DeepSeek 驱动，生成情书、提供话题灵感、分析心情、送上暖心祝福——让两人随时都有话聊，有爱可表达。
+**🤖 AI 陪伴** — 生成情书、提供话题灵感、分析心情、送上暖心祝福——让两人随时都有话聊，有爱可表达。
 
 ---
 
 ## 技术架构
 
-| | |
-|---|---|
-| 框架 | React Native + Expo SDK 54（TypeScript）|
-| 后端 | 腾讯云开发 — 数据库 · 存储 · 云函数 |
-| AI | DeepSeek API（云函数代理） |
-| 构建 | EAS Build（Android APK）|
+|      |                                          |
+| ---- | ---------------------------------------- |
+| 框架 | React Native + Expo SDK 54（TypeScript） |
+| 后端 | 腾讯云开发 — 数据库 · 存储 · 云函数      |
+| AI   | DeepSeek API（云函数代理）               |
+| 构建 | EAS Build（Android APK）                 |
 
 > 所有运行时网络请求均经由腾讯云国内节点，无境外依赖，在中国大陆稳定运行。
 
@@ -58,6 +58,7 @@ npm run build    # EAS 打包 Android APK
 ```
 
 **必要配置：**
+
 - `src/config/cloudbase.ts` — 填入 TCB 环境 ID
 - `src/services/storage.ts` — 填入 TCB 存储域名
 - `functions/ai-proxy/` — 部署至 TCB 控制台，设置 `DEEPSEEK_API_KEY` 环境变量，超时改为 20s

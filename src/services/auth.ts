@@ -44,6 +44,31 @@ export async function login(phone: string, code: string): Promise<{ userId: stri
   return { userId: user._id, coupleId: user.coupleId, gender: user.gender ?? 'male' };
 }
 
+export async function unbindCouple(userId: string, coupleId: string): Promise<void> {
+  await authReady;
+
+  // 清除旧 couple 文档里自己那侧
+  const res: any = await db.collection('couples').doc(coupleId).get();
+  const coupleData = (res.data as any[])?.[0];
+  if (coupleData) {
+    if (coupleData.user1 === userId) {
+      await db.collection('couples').doc(coupleId).update({ user1: '', status: 'pending' });
+    } else {
+      await db.collection('couples').doc(coupleId).update({ user2: '', status: 'pending' });
+    }
+  }
+
+  // 为自己创建全新的 couple 文档和 code
+  const newCode = generateCode();
+  const newCoupleResult: any = await db.collection('couples').add({
+    code: newCode, status: 'pending', user1: userId, user2: '', startDate: Date.now(),
+  });
+  const newCoupleId: string = newCoupleResult.docId ?? newCoupleResult.id ?? newCoupleResult._id;
+
+  // 更新用户记录
+  await db.collection('users').doc(userId).update({ coupleId: newCoupleId, code: newCode });
+}
+
 export async function pairCouple(myUserId: string, partnerCode: string): Promise<string> {
   await authReady;
 

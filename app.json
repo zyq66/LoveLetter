@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "LoveApp",
+    "name": "LoveLetter",
     "slug": "LoveApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.zyq66.LoveApp",
+      "package": "com.zyq66.loveletter",
       "permissions": []
     },
     "web": {

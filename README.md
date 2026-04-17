@@ -1,4 +1,4 @@
-# 情书 💌
+# LoveLetter 💌
 
 [中文](README_CN.md) | **English**
 
@@ -6,15 +6,15 @@
 
 ---
 
-## What is 情书?
+## What is LoveLetter?
 
-**情书** *(Qíngshū, "Love Letter")* is a private mobile app built exclusively for couples. Unlike social platforms, it belongs only to the two of you. From your very first day together to every anniversary, from daily moods to a heartfelt message late at night — 情书 gives your relationship a place to breathe and be remembered.
+**LoveLetter** is a private mobile app built exclusively for couples. Unlike social platforms, it belongs only to the two of you. From your very first day together to every anniversary, from daily moods to a heartfelt message late at night — LoveLetter gives your relationship a place to breathe and be remembered.
 
 ---
 
-## Why 情书?
+## Why LoveLetter?
 
-Most messaging apps are built for the world. 情书 is built for two.
+Most messaging apps are built for the world. LoveLetter is built for two.
 
 There are no followers, no likes, no public feeds — just a quiet, intimate space where two people can be fully present with each other. Every photo, every note, every small moment is yours alone.
 
@@ -32,18 +32,20 @@ There are no followers, no likes, no public feeds — just a quiet, intimate spa
 
 **🗓 Anniversary Tracker** — Every day together is counted. Important dates surface before they slip by.
 
-**🤖 AI Companion** — Powered by DeepSeek. Generates love letters, sparks conversation topics, reads the mood, and sends sweet wishes — so there's always something meaningful to say.
+**🤖 AI Companion** —  Generates love letters, sparks conversation topics, reads the mood, and sends sweet wishes — so there's always something meaningful to say.
 
 ---
 
 ## Tech Stack
 
-| | |
-|---|---|
-| Framework | React Native + Expo SDK 54 (TypeScript) |
-| Backend | Tencent CloudBase — DB · Storage · Functions |
-| AI | DeepSeek API via serverless proxy |
-| Build | EAS Build (Android APK) |
+
+|           |                                              |
+| --------- | -------------------------------------------- |
+| Framework | React Native + Expo SDK 54 (TypeScript)      |
+| Backend   | Tencent CloudBase — DB · Storage · Functions |
+| AI        | DeepSeek API via serverless proxy            |
+| Build     | EAS Build (Android APK)                      |
+
 
 > All runtime traffic routes through Tencent Cloud domestic nodes — stable and fully accessible within mainland China.
 
@@ -58,6 +60,7 @@ npm run build    # EAS Android APK
 ```
 
 **Required config:**
+
 - `src/config/cloudbase.ts` — TCB environment ID
 - `src/services/storage.ts` — TCB storage domain
 - `functions/ai-proxy/` — Deploy to TCB console; set `DEEPSEEK_API_KEY` env var and 20s timeout

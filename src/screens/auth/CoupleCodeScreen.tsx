@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { colors, spacing } from '../../theme';
 import { pairCouple } from '../../services/auth';
 import { useAuth } from '../../store/AuthContext';
+import { db } from '../../config/cloudbase';
 
 export function CoupleCodeScreen({ route }: any) {
-  const { userId, coupleCode, gender } = route.params;
+  const params = route.params ?? {};
+  const { setAuth, userId: authUserId, gender: authGender } = useAuth();
+  const userId = params.userId ?? authUserId;
+  const gender = params.gender ?? authGender ?? 'male';
+  const [coupleCode, setCoupleCode] = useState<string>(params.coupleCode ?? '');
   const [partnerCode, setPartnerCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setAuth } = useAuth();
+
+  useEffect(() => {
+    if (coupleCode || !userId) return;
+    db.collection('users').doc(userId).get().then((res: any) => {
+      const user = (res.data as any[])?.[0];
+      if (user?.code) setCoupleCode(user.code);
+    });
+  }, [userId]);
 
   async function handleCopy() {
     await Clipboard.setStringAsync(coupleCode);

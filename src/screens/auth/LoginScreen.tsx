@@ -15,7 +15,12 @@ export function LoginScreen({ navigation }: any) {
     setLoading(true);
     try {
       const { userId, coupleId, gender } = await login(phone, code.toUpperCase());
-      setAuth(userId, coupleId, gender);
+      if (coupleId) {
+        setAuth(userId, coupleId, gender);
+      } else {
+        // 已解绑，需要重新配对
+        setAuth(userId, '', gender);
+      }
     } catch (e: any) {
       Alert.alert('登录失败', e.message);
     } finally {

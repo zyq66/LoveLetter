@@ -11,6 +11,7 @@ import { db } from '../config/cloudbase';
 import {
   getAnniversaries, addAnniversary, deleteAnniversary, Anniversary,
 } from '../services/anniversaries';
+import { unbindCouple } from '../services/auth';
 import { uploadImage } from '../services/storage';
 import { DatePicker } from '../components/DatePicker';
 import { colors, spacing } from '../theme';
@@ -145,16 +146,7 @@ export function MoreScreen() {
         text: '确定解绑', style: 'destructive',
         onPress: async () => {
           if (!coupleId || !userId) return;
-          const res: any = await db.collection('couples').doc(coupleId).get();
-          const coupleData = (res.data as any[])?.[0];
-          if (coupleData) {
-            if (coupleData.user1 === userId) {
-              await db.collection('couples').doc(coupleId).update({ user1: '', status: 'pending' });
-            } else {
-              await db.collection('couples').doc(coupleId).update({ user2: '', status: 'pending' });
-            }
-          }
-          await db.collection('users').doc(userId).update({ coupleId: '' });
+          await unbindCouple(userId, coupleId);
           clearAuth();
         },
       },

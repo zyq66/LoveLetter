@@ -38,7 +38,7 @@ function MainTabs() {
 }
 
 function RootNavigator() {
-  const { userId, loading } = useAuth();
+  const { userId, coupleId, loading } = useAuth();
 
   return (
     <NavigationContainer>
@@ -48,8 +48,10 @@ function RootNavigator() {
         </View>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {userId ? (
+          {userId && coupleId ? (
             <Stack.Screen name="Main" component={MainTabs} />
+          ) : userId && !coupleId ? (
+            <Stack.Screen name="CoupleCode" component={CoupleCodeScreen} />
           ) : (
             <>
               <Stack.Screen name="Login" component={LoginScreen} />
