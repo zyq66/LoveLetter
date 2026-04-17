@@ -3,10 +3,10 @@ import { db, authReady } from '../config/cloudbase';
 
 export interface Profile {
   // 基本信息
-  birthday: number;       // timestamp，0 = 未设置
-  bloodType: string;      // A / B / AB / O / ''
-  mbti: string;           // INFJ 等 / ''
-  height: string;         // '163' / ''
+  birthday: number;
+  bloodType: string;
+  mbti: string;
+  height: string;
 
   // 饮食
   favFoods: string[];
