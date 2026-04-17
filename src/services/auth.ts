@@ -5,7 +5,7 @@ function generateCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-export async function register(phone: string): Promise<{ userId: string; coupleCode: string }> {
+export async function register(phone: string, gender: 'male' | 'female'): Promise<{ userId: string; coupleCode: string }> {
   await authReady; // 确保匿名登录完成
 
   const existing = await db.collection('users').where({ phone }).get();
@@ -21,7 +21,7 @@ export async function register(phone: string): Promise<{ userId: string; coupleC
 
   // 再建 user，拿到自动生成的 _id 作为 userId
   const userResult: any = await db.collection('users').add({
-    phone, nickname: '', avatarUrl: '', coupleId, code, createdAt: Date.now(),
+    phone, nickname: '', avatarUrl: '', coupleId, code, gender, createdAt: Date.now(),
   });
   const userId: string = userResult.docId ?? userResult.id ?? userResult._id;
 
@@ -31,7 +31,7 @@ export async function register(phone: string): Promise<{ userId: string; coupleC
   return { userId, coupleCode: code };
 }
 
-export async function login(phone: string, code: string): Promise<{ userId: string; coupleId: string }> {
+export async function login(phone: string, code: string): Promise<{ userId: string; coupleId: string; gender: 'male' | 'female' }> {
   await authReady;
 
   const res = await db.collection('users').where({ phone }).get();
@@ -41,7 +41,7 @@ export async function login(phone: string, code: string): Promise<{ userId: stri
   const user = users[0];
   if (user.code !== code) throw new Error('情侣码错误');
 
-  return { userId: user._id, coupleId: user.coupleId };
+  return { userId: user._id, coupleId: user.coupleId, gender: user.gender ?? 'male' };
 }
 
 export async function pairCouple(myUserId: string, partnerCode: string): Promise<string> {

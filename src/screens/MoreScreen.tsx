@@ -23,7 +23,7 @@ function formatDisplayDate(ms: number): string {
 
 
 export function MoreScreen() {
-  const { userId, coupleId, clearAuth } = useAuth();
+  const { userId, coupleId, gender, setAuth, clearAuth } = useAuth();
 
   // Profile
   const [avatarUrl, setAvatarUrl] = useState('');
@@ -195,6 +195,29 @@ export function MoreScreen() {
               <Text style={styles.rowArrow}>›</Text>
             </View>
           </TouchableOpacity>
+          <View style={[styles.row, styles.rowLast]}>
+            <Text style={styles.rowLabel}>性别</Text>
+            <View style={styles.genderToggle}>
+              <TouchableOpacity
+                style={[styles.genderBtn, gender === 'male' && styles.genderBtnActive]}
+                onPress={async () => {
+                  await db.collection('users').doc(userId!).update({ gender: 'male' });
+                  setAuth(userId!, coupleId!, 'male');
+                }}
+              >
+                <Text style={[styles.genderBtnText, gender === 'male' && styles.genderBtnTextActive]}>👦 男生</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.genderBtn, gender === 'female' && styles.genderBtnActiveFemale]}
+                onPress={async () => {
+                  await db.collection('users').doc(userId!).update({ gender: 'female' });
+                  setAuth(userId!, coupleId!, 'female');
+                }}
+              >
+                <Text style={[styles.genderBtnText, gender === 'female' && styles.genderBtnTextActiveFemale]}>👧 女生</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
 
         {/* 情侣 */}
@@ -207,12 +230,6 @@ export function MoreScreen() {
               <Text style={styles.rowArrow}>›</Text>
             </View>
           </TouchableOpacity>
-          {coupleId ? (
-            <View style={styles.row}>
-              <Text style={styles.rowLabel}>情侣 ID</Text>
-              <Text style={styles.rowValue} numberOfLines={1}>{coupleId}</Text>
-            </View>
-          ) : null}
           <TouchableOpacity style={[styles.row, styles.rowLast]} onPress={handleUnbind}>
             <Text style={[styles.rowLabel, styles.danger]}>解绑情侣</Text>
             <Text style={styles.rowArrow}>›</Text>
@@ -370,6 +387,17 @@ const styles = StyleSheet.create({
   annHint: { fontSize: 11, color: colors.whiteSecondary, paddingHorizontal: spacing.lg, marginTop: 6 },
 
   version: { textAlign: 'center', color: colors.whiteSecondary, fontSize: 12, marginTop: spacing.xl },
+
+  genderToggle: { flexDirection: 'row', gap: 8 },
+  genderBtn: {
+    paddingHorizontal: 14, paddingVertical: 6, borderRadius: 16,
+    borderWidth: 1, borderColor: colors.whiteBorder, backgroundColor: colors.whiteDim,
+  },
+  genderBtnActive: { borderColor: colors.greenBorder, backgroundColor: colors.greenDim },
+  genderBtnActiveFemale: { borderColor: '#f9a8d4', backgroundColor: 'rgba(249,168,212,0.12)' },
+  genderBtnText: { fontSize: 13, color: colors.whiteSecondary },
+  genderBtnTextActive: { color: colors.green, fontWeight: '600' },
+  genderBtnTextActiveFemale: { color: '#f9a8d4', fontWeight: '600' },
 
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
   modalBox: { backgroundColor: '#16213e', borderRadius: 16, padding: spacing.lg, width: '85%', borderWidth: 1, borderColor: colors.whiteBorder },

@@ -6,7 +6,7 @@ import { pairCouple } from '../../services/auth';
 import { useAuth } from '../../store/AuthContext';
 
 export function CoupleCodeScreen({ route }: any) {
-  const { userId, coupleCode } = route.params;
+  const { userId, coupleCode, gender } = route.params;
   const [partnerCode, setPartnerCode] = useState('');
   const [loading, setLoading] = useState(false);
   const { setAuth } = useAuth();
@@ -21,7 +21,7 @@ export function CoupleCodeScreen({ route }: any) {
     setLoading(true);
     try {
       const newCoupleId = await pairCouple(userId, partnerCode.toUpperCase());
-      setAuth(userId, newCoupleId);
+      setAuth(userId, newCoupleId, gender ?? 'male');
     } catch (e: any) {
       Alert.alert('配对失败', e.message);
     } finally {

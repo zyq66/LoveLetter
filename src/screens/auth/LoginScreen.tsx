@@ -14,8 +14,8 @@ export function LoginScreen({ navigation }: any) {
     if (!phone || !code) return Alert.alert('请填写手机号和情侣码');
     setLoading(true);
     try {
-      const { userId, coupleId } = await login(phone, code.toUpperCase());
-      setAuth(userId, coupleId);
+      const { userId, coupleId, gender } = await login(phone, code.toUpperCase());
+      setAuth(userId, coupleId, gender);
     } catch (e: any) {
       Alert.alert('登录失败', e.message);
     } finally {

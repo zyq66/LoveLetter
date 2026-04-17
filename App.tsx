@@ -15,6 +15,7 @@ import { AlbumScreen } from './src/screens/AlbumScreen';
 import { LetterScreen } from './src/screens/LetterScreen';
 import { MomentsScreen } from './src/screens/MomentsScreen';
 import { MoreScreen } from './src/screens/MoreScreen';
+import { ProfileScreen } from './src/screens/ProfileScreen';
 import { BottomTabBar } from './src/components/BottomTabBar';
 
 const Stack = createStackNavigator();
@@ -30,6 +31,7 @@ function MainTabs() {
       <Tab.Screen name="Album" component={AlbumScreen} />
       <Tab.Screen name="Letter" component={LetterScreen} />
       <Tab.Screen name="Moments" component={MomentsScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="More" component={MoreScreen} />
     </Tab.Navigator>
   );
